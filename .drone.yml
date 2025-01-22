@@ -1,0 +1,22 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: deploy_staging
+  image: appleboy/drone-ssh
+  settings:
+    host:
+      from_secret: host
+    username: root
+    port: 22
+    key:
+      from_secret: ssh_key
+    script:
+      - env
+      - docker ps
+  when:
+    event:
+    - push
+    branch:
+    - main
